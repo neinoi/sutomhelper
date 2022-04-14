@@ -8,6 +8,8 @@ Tries to propose words with the most different letters first
 ## Sutom template string
 
 . : unknown letter
+
 (a) : bad placed letter
+
 a : known letter
  
