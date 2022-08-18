@@ -16,7 +16,7 @@ Python 3 must be installed
 
 . : unknown letter
 
-(a) : bad placed letter
+- : bad placed letter
 
 a : known letter
 

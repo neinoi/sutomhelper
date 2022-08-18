@@ -31,28 +31,23 @@ class Sutom:
         self.tested_word = tested_word
 
     def __analyse_template(self):
-        count_letter = True
         self.unknown = []
         self.fixed_letters = []
         self.len = 0
         for c in self.template:
-            if c == '(':
-                self.len += 1
-                count_letter = False
+            self.len += 1
+            if c == '-':
                 self.fixed_letters.append('.')
                 self.unknown.append(self.len - 1)
-            elif c == ')':
-                count_letter = True
-            elif count_letter:
-                self.len += 1
-                self.fixed_letters.append(c)
-                if c == '.':
-                    self.unknown.append(self.len - 1)
-            else:
                 try:
-                    self.bad_placed[c].append(self.len - 1)
+                    self.bad_placed[self.tested_word[self.len - 1]].append(self.len - 1)
                 except KeyError:
-                    self.bad_placed[c] = [self.len - 1]
+                    self.bad_placed[self.tested_word[self.len - 1]] = [self.len - 1]
+            elif c == '.':
+                self.fixed_letters.append(c)
+                self.unknown.append(self.len - 1)
+            else:
+                self.fixed_letters.append(c)
 
         if self.tested_word != "":
             pos = 0
@@ -94,7 +89,8 @@ class Analyzer:
 
         self.remaining_words = newr
 
-    def __unique_letters(self, word):
+    @staticmethod
+    def __unique_letters(word):
         return len(list(set([y for y in word])))
 
     def __test_fixed_letters(self, sutom_object, word):
@@ -172,13 +168,18 @@ if __name__ == '__main__':
     sut = Sutom(DEBUG)
     analyzer = Analyzer(DEBUG)
 
+    first_pass = True
+
     while len(analyzer.remaining_words) > 1:
         sutom = input("Sutom template string : ")
-        print("Current unused letters :", analyzer.unused_letters)
-        unused_letters = input("Add unused letters : ")
-
         sut.set_template(sutom)
-        analyzer.add_unused(unused_letters)
+
+        if not first_pass:
+            print("Current unused letters :", analyzer.unused_letters)
+            unused_letters = input("Add unused letters : ")
+            analyzer.add_unused(unused_letters)
+
+        first_pass = False
 
         if DEBUG:
             print("DEBUG", args.debug)
@@ -208,7 +209,8 @@ if __name__ == '__main__':
 
             print("=== TRY : ", possibles[random.randrange(len(possibles))], "===")
 
-            try_word = input("Tried word : ")
-            sut.set_word(try_word)
+            if len(analyzer.remaining_words) > 1:
+                try_word = input("Tried word : ")
+                sut.set_word(try_word)
         else:
             print("=== ERROR NO MATCHING WORD ===")
