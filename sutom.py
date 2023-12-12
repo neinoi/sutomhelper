@@ -205,7 +205,7 @@ if __name__ == '__main__':
             print("=== TRY : ", possibles[random.randrange(len(possibles))], "===")
 
             if len(analyzer.remaining_words) > 1:
-                try_word = input("Tried word : ")
+                try_word = input("Tried word : ").upper()
                 sut.set_word(try_word)
         else:
             print("=== ERROR NO MATCHING WORD ===")

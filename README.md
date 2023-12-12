@@ -14,11 +14,11 @@ Python 3 must be installed
 
 ### IN : Sutom template string
 
-. : unknown letter
+"." : unknown letter
 
-- : bad placed letter
+"-" : bad placed letter
 
-a : known letter
+"a" : known letter
 
 ### OUT : Current unused letters
 ### IN : Add unused letters
